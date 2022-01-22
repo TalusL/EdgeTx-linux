@@ -1,2 +1,2 @@
 # EdgeTx-linux
-port edgetx to raspberry pi like linux based broads 
+port edgetx to linux based broads like raspberry pi 
