@@ -11,7 +11,12 @@ find_package(Qt5 COMPONENTS
         Core
         Gui
         Widgets
-        REQUIRED)
+        REQUIRED
+        )
+
+find_package("SDL")
+message(STATUS "SDL Lib: ${SDL_LIBRARY}; Headers: ${SDL_INCLUDE_DIR}; Version: ${SDL_VERSION_STRING}")
+include_directories(${SDL_INCLUDE_DIR})
 
 add_executable(edgetx_linux
         boards.h
@@ -21,10 +26,13 @@ add_executable(edgetx_linux
         lcdwidget.h
         main.cpp
         simulatorinterface.h
+        joystick.h
+        joystick.cpp
         )
 target_link_libraries(edgetx_linux
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
+        ${SDL_LIBRARY}
         )
 

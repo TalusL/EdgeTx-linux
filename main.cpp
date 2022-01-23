@@ -1,14 +1,17 @@
 #include <QApplication>
 #include <QPushButton>
 #include <QLibrary>
+#include <iostream>
 #include "simulatorinterface.h"
 #include "lcdwidget.h"
+#include "joystick.h"
 
 typedef SimulatorFactory * (*RegisterSimulator)();
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     LcdWidget lcdWidget;
     SimulatorInterface * si = NULL;
+    SDL_Init(SDL_INIT_JOYSTICK);
 #if(_WIN32)
     auto * lib = new QLibrary(  "../libedgetx-tx16s-simulator.dll");
 #else
@@ -30,9 +33,20 @@ int main(int argc, char *argv[]) {
         lcdWidget.onLcdChanged(backlightEnable);
     });
     lcdWidget.setData(si->getLcd(),480,272,16);
+    lcdWidget.setFixedSize(480,272);
     lcdWidget.show();
+    Joystick joystick;
+    QObject::connect(&joystick,&Joystick::axisValueChanged,[](int axis, int value){
+        qDebug() << "axis:" << axis << " value" << value;
+    });
+    QObject::connect(&joystick,&Joystick::buttonValueChanged,[](int button, int value){
+        qDebug() << "button:" << button << " value" << value;
+    });
+    if(!joystick.joystickNames.empty()){
+        joystick.open(0);
+    }
     QObject::connect(&lcdWidget, &LcdWidget::touchEvent, si, &SimulatorInterface::touchEvent);
-    si->setSdPath("/home/wind/CLionProjects/edgetx-linux/cmake-build-debug/sd");
+    si->setSdPath("D:\\EGSD");
     si->init();
     si->setVolumeGain(50);
     si->start();
