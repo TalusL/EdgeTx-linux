@@ -9,7 +9,11 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     LcdWidget lcdWidget;
     SimulatorInterface * si = NULL;
-    auto * lib = new QLibrary(  "./libedgetx-tx16s-simulator.so");
+#if(_WIN32)
+    auto * lib = new QLibrary(  "../libedgetx-tx16s-simulator.dll");
+#else
+    auto * lib = new QLibrary(  "../libedgetx-tx16s-simulator.so");
+#endif
     SimulatorFactory * factory;
     auto registerFunc = (RegisterSimulator)lib->resolve("registerSimu");
     if (registerFunc && (factory = registerFunc()) && (si = factory->create())) {
