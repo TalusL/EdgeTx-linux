@@ -31,7 +31,7 @@
 #include <QMouseEvent>
 
 
-#define LCD_WIDGET_REFRESH_PERIOD    16  // [ms] 16 = 62.5fps
+#define LCD_WIDGET_REFRESH_PERIOD    40  // [ms] 16 = 62.5fps
 
 class LcdWidget : public QWidget
 {
