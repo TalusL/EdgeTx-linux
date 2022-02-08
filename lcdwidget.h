@@ -57,10 +57,6 @@ class LcdWidget : public QWidget
   }
 
   void setData(unsigned char *buf, int width, int height, int depth = 1);
-  void setBgDefaultColor(const QColor &color);
-  void setBackgroundColor(const QColor &color);
-
-  void makeScreenshot(const QString &fileName);
 
   void onLcdChanged(bool light);
 
@@ -82,11 +78,11 @@ class LcdWidget : public QWidget
   QMutex lcdMtx;
   QElapsedTimer redrawTimer;
 
-  void doPaint(QPainter &p);
-
   void paintEvent(QPaintEvent *) override;
 
   void mouseMoveEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
+
+  void calcAbsPoint(int &x,int &y);
 };

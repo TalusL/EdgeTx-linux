@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
         lcdWidget.onLcdChanged(backlightEnable);
     });
     lcdWidget.setData(si->getLcd(),480,272,16);
-    lcdWidget.setFixedSize(480,272);
+    lcdWidget.setFixedSize(800,480);
     lcdWidget.show();
     Joystick joystick;
     QObject::connect(&joystick,&Joystick::axisValueChanged,[](int axis, int value){
